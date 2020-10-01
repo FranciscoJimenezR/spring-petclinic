@@ -21,6 +21,13 @@ jobs:
         curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube_latest_amd64.deb
         sudo dpkg -i minikube_latest_amd64.deb
         minikube start
+        minikube kubectl -- apply -f $compose
+        while true
+          do
+            sleep 1
+            minikube kubectl -- get deploy
+            minikube kubectl -- get deploy | grep '\([0-9]\)/\1' && break
+          done
         
 
       
