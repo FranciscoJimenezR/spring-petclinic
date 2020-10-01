@@ -1,0 +1,22 @@
+name: CI-minikube
+on: 
+  push:
+    branches: [main]
+jobs:
+  minikube:
+    runs-on: ubuntu-latest
+    steps:
+    -
+      uses: actions/checkout@v2
+    -
+      env:
+        mode: minikube
+      run: |
+        set -x
+        compose=etc/docker/$mode/$(basename $GITHUB_REPOSITORY).yaml
+        date=$(date +%s)
+        test -d run && sudo cp -rv run/* /run
+        sed -i s/image.*$/image:' '$mode:$date/ $compose
+        docker build -t $mode:$date --no-cache .
+        
+      
