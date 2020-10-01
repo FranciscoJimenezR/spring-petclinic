@@ -18,5 +18,9 @@ jobs:
         test -d run && sudo cp -rv run/* /run
         sed -i s/image.*$/image:' '$mode:$date/ $compose
         docker build -t $mode:$date --no-cache .
+        curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube_latest_amd64.deb
+        sudo dpkg -i minikube_latest_amd64.deb
+        minikube start
         
+
       
