@@ -19,4 +19,5 @@ ARG GITHUB_REPOSITORY=FranciscoJimenezR/spring-petclinic
 WORKDIR /${GITHUB_REPOSITORY}
 COPY --from=build /${GITHUB_REPOSITORY}/target/${GITHUB_APP}.jar .
 ENTRYPOINT ["java","-jar"]
-CMD ${GITHUB_APP}.jar
+#CMD ${GITHUB_APP}.jar
+CMD spring-petclinic.jar
