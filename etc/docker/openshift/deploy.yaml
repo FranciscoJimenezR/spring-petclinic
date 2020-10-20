@@ -15,4 +15,3 @@ spec:
       -
         image: secobau/spring-petclinic:latest
         name: container
-       
