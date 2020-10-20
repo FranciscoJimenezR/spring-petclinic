@@ -1,0 +1,18 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: deploy
+spec:
+  selector:
+    matchLabels:
+      app: spring-petclinic
+  template: 
+    metadata:
+      labels:
+        app: spring-petclinic
+    spec:
+      containers: 
+      -
+        image: secobau/spring-petclinic:latest
+        name: container
+       
