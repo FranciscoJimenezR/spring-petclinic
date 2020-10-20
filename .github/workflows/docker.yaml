@@ -1,0 +1,31 @@
+name: docker
+on:
+  push:
+    branches: [main]
+jobs:
+  docker: 
+    runs-on: ubuntu-18.04
+    steps:
+    -
+      name: checkout
+      uses: actions/checkout@v2
+    -
+      name: test
+      run: | 
+        docker build -t test --no-cache .
+        docker run -d test
+        while true
+          do
+            sleep 1
+            docker ps | grep Up && break
+          done
+        while true
+          do
+            sleep 1
+            docker exec $(docker ps -q) ps | grep java && break
+          done
+        while true
+          do
+            sleep 1
+            curl localhost -I | greep 200 && break
+          done
