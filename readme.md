@@ -2,6 +2,8 @@
 
 ![CI-minikube](https://github.com/FranciscoJimenezR/spring-petclinic/workflows/CI-minikube/badge.svg)
 
+![docker](https://github.com/FranciscoJimenezR/spring-petclinic/workflows/docker/badge.svg)
+
 # Spring PetClinic Sample Application 
 
 ## Understanding the Spring Petclinic application with a few diagrams
