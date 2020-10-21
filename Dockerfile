@@ -1,23 +1,15 @@
-FROM alpine/git:latest AS clone
-ARG GITHUB_USER=FranciscoJimenezR
-ARG GITHUB_REPOSITORY=FranciscoJimenezR/spring-petclinic
-WORKDIR /${GITHUB_USER}
-RUN git clone https://github.com/${GITHUB_REPOSITORY}
+FROM alpine/git 
+WORKDIR /clone
+RUN git clone https://github.com/openshift-academia-online/spring-petclinic --single-branch -b ops
 
-#FROM maven:alpine AS build
-FROM maven:alpine AS build
-ARG GITHUB_APP=spring-petclinic
-ARG GITHUB_REPOSITORY=FranciscoJimenezR/spring-petclinic
-WORKDIR /${GITHUB_REPOSITORY}
-COPY --from=clone /${GITHUB_REPOSITORY} .
-#RUN ./mvnw package && mv target/${GITHUB_APP}-*.jar target/${GITHUB_APP}.jar
-RUN mvn install && mv target/${GITHUB_APP}-*.jar target/${GITHUB_APP}.jar
+FROM maven:alpine
+WORKDIR /build
+COPY --from=0 /clone/spring-petclinic .
+RUN mvn install && mv target/spring-petclinic-*.jar target/spring-petclinic.jar
 
-FROM openjdk:jre-alpine AS production
-ARG GITHUB_APP=spring-petclinic
-ARG GITHUB_REPOSITORY=FranciscoJimenezR/spring-petclinic
-WORKDIR /${GITHUB_REPOSITORY}
-COPY --from=build /${GITHUB_REPOSITORY}/target/${GITHUB_APP}.jar .
+FROM openjdk:jre-alpine
+WORKDIR /app
+COPY --from=1 /build/target/spring-petclinic.jar .
+
 ENTRYPOINT ["java","-jar"]
-#CMD ${GITHUB_APP}.jar
-CMD spring-petclinic.jar
+CMD ["spring-petclinic.jar"]
